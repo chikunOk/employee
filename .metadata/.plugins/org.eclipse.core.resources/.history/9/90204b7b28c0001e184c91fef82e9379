@@ -1,0 +1,11 @@
+package com.example.employeemanagement.service;
+
+import com.example.employeemanagement.entity.EmployeeEntity;
+
+import jakarta.validation.Valid;
+
+public interface EmployeeService {
+
+public	void addEmployee(@Valid EmployeeEntity employee);
+
+}

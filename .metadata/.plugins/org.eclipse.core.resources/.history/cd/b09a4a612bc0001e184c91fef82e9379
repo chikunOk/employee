@@ -1,0 +1,87 @@
+package com.example.employeemanagement.serviceImpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.employeemanagement.entity.EmployeeEntity;
+import com.example.employeemanagement.repository.EmployeeRepo;
+import com.example.employeemanagement.service.EmployeeService;
+
+import jakarta.validation.Valid;
+
+@Service
+public class EmployeeServiceImpl implements EmployeeService{
+
+	
+	// .................................................................................................................
+	
+	@Autowired
+    private EmployeeRepo employeeRepo;
+
+	public void addEmployee(Employee employee) {
+        // Implement your validation logic if needed
+        employeeRepository.save(employee);
+    }
+
+    public Map<String, Object> calculateTaxDeduction(String employeeId) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId);
+        if (employee == null) {
+            throw new IllegalArgumentException("Employee not found for ID: " + employeeId);
+        }
+
+        // Calculate tax-related information
+        double yearlySalary = calculateYearlySalary(employee); // Implement your logic
+        double taxAmount = calculateTaxAmount(yearlySalary); // Implement your logic
+        double cessAmount = calculateCessAmount(yearlySalary); // Implement your logic
+
+        // Create a map to hold the tax-related information
+        Map<String, Object> taxResult = Map.of(
+                "employeeId", employee.getEmployeeId(),
+                "firstName", employee.getFirstName(),
+                "lastName", employee.getLastName(),
+                "yearlySalary", yearlySalary,
+                "taxAmount", taxAmount,
+                "cessAmount", cessAmount
+        );
+
+        return taxResult;
+    }
+
+    private double calculateYearlySalary(Employee employee) {
+        // Implement your logic to calculate yearly salary based on the employee's salary and other factors
+        return employee.getSalary() * 12;
+    }
+
+    private double calculateTaxAmount(double yearlySalary) {
+        // Implement your logic to calculate tax amount based on yearly salary and tax slabs
+        // Example logic, update as per your requirements
+        if (yearlySalary <= 250000) {
+            return 0;
+        } else if (yearlySalary <= 500000) {
+            return 0.05 * (yearlySalary - 250000);
+        } else if (yearlySalary <= 1000000) {
+            return 0.1 * (yearlySalary - 500000) + 12500;
+        } else {
+            return 0.2 * (yearlySalary - 1000000) + 125000;
+        }
+    }
+
+    private double calculateCessAmount(double yearlySalary) {
+        // Implement your logic to calculate cess amount based on yearly salary
+        // Example logic, update as per your requirements
+        if (yearlySalary > 2500000) {
+            return 0.02 * (yearlySalary - 2500000);
+        } else {
+            return 0;
+        }
+    }
+
+	@Override
+	public String addEmployee(@Valid EmployeeEntity employee) {
+		// TODO Auto-generated method stub
+		return employeeRepo.save(employee);
+	}
+
+	
+	// .................................................................................................................
+}

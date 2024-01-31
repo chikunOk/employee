@@ -1,0 +1,47 @@
+package com.example.employeemanagement.serviceImpl;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.antlr.v4.runtime.misc.NotNull;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Entity
+@Table(name = "employees")
+@Data
+public class EmployeeServiceImpl {
+
+	    @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long id;
+
+	    @Column(name = "employee_id", unique = true)
+	    private String employeeId;
+
+	    @Column(name = "first_name")
+	    private String firstName;
+
+	    @Column(name = "last_name")
+	    private String lastName;
+
+	    @Column(unique = true)
+	    private String email;
+
+	    @Column(name = "phone_number")
+	    private List<String> phoneNumbers;
+
+	    @Column(name = "doj")
+	    private LocalDate doj;
+	    
+	    @Column(name = "salary")
+	    private double salary;
+	
+}
